@@ -1,0 +1,42 @@
+x = 64
+y = 64
+
+function _update()
+  local next_x = x
+  local next_y = y
+
+  if btn(0) and x > 7 then next_x = x - 1 end
+  if btn(1) and x < 122 then next_x = x + 1 end
+  if btn(2) and y > 7 then next_y = y - 1 end
+  if btn(3) and y < 122 then next_y = y + 1 end
+
+  if not check_collision(next_x, next_y) then
+    x = next_x
+    y = next_y
+  end
+end
+
+function _draw()
+  cls(5)
+  circfill(x, y, 7, 8)
+  _drawblocks()
+end
+
+function _drawblocks()
+  rectfill(80, 80, 100, 100, 12)
+end
+
+function check_collision(cx, cy)
+  local rect_x1 = 80
+  local rect_y1 = 80
+  local rect_x2 = 100
+  local rect_y2 = 100
+  local r = 7
+
+  local closest_x = mid(rect_x1, cx, rect_x2)
+  local closest_y = mid(rect_y1, cy, rect_y2)
+
+  local distance = sqrt((cx - closest_x)^2 + (cy - closest_y)^2)
+
+  return distance < r
+end
